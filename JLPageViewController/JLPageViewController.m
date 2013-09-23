@@ -129,6 +129,11 @@
                 frame.origin.x = 0;
             }
             self.sideViewController.view.frame = frame;
+            
+            pageScrollView.alpha = pageScrollView.frame.origin.x < self.sideViewWidth / 2 ? 1.0 : 0.5;
+            pageControl.currentPageIndicatorTintColor = pageScrollView.frame.origin.x < self.sideViewWidth / 2 ? self.currentPageIndicatorTintColor : self.pageIndicatorTintColor;
+            [self.navigationItem.rightBarButtonItem setEnabled:pageScrollView.frame.origin.x < self.sideViewWidth / 2];
+            self.title = pageScrollView.frame.origin.x > self.sideViewWidth / 2 ? self.sideViewTitle : [self.titles objectAtIndex:[self.viewControllers indexOfObject:self.selectedViewController]];
         }
         if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
             CATransition *animation = [CATransition animation];
