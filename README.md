@@ -10,3 +10,5 @@ What it is like:
 2. The scroll view behave pretty much like the UIPageViewController, just that the UIPageControl is on the navigation bar
 
 3. The side view will be shown when the scroll view is on the first page and the user drag to right, or when user press the left navigation bar button no matter which page the scroll view is on
+
+![Demo](https://raw.github.com/jonathanlu813/JLPageViewController/master/pageViewController.gif)
