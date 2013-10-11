@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "JLPageViewController"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "A reprodcution of Quora iOS7 style navigation."
 
   s.description  = <<-DESC
@@ -75,7 +75,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/jonathanlu813/JLPageViewController.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/jonathanlu813/JLPageViewController.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
