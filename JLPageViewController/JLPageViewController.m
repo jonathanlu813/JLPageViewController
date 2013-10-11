@@ -136,86 +136,29 @@
             self.title = pageScrollView.frame.origin.x > self.sideViewWidth / 2 ? self.sideViewTitle : [self.titles objectAtIndex:[self.viewControllers indexOfObject:self.selectedViewController]];
         }
         if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-            CATransition *animation = [CATransition animation];
-            [animation setDuration:0.2f];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-            [animation setType:kCATransitionFade];
-            
-            [self.navigationController.navigationBar.layer addAnimation:animation forKey:nil];
-            
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.2f];
-            [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-            if (!isSideViewShown) {
-                if (translation.x > self.sideViewWidth / 2 || velocity.x > 500) {
-                    CGRect frame = pageScrollView.frame;
-                    frame.origin.x = self.sideViewWidth;
-                    pageScrollView.frame = frame;
-                    
-                    frame = self.sideViewController.view.frame;
-                    frame.origin.x = 0;
-                    self.sideViewController.view.frame = frame;
-                    
-                    pageScrollView.alpha = isSideViewShown ? 1.0 : 0.5;
-                    
-                    pageControl.currentPageIndicatorTintColor = isSideViewShown ? self.currentPageIndicatorTintColor : self.pageIndicatorTintColor;
-                    [self.navigationItem.rightBarButtonItem setEnabled:isSideViewShown];
-                    
-                    [UIView commitAnimations];
-                    
-                    [pageScrollView setUserInteractionEnabled:isSideViewShown];
-                    for (UIPanGestureRecognizer *gr in pageScrollView.gestureRecognizers) {
-                        gr.enabled = isSideViewShown;
-                    }
-                    
-                    isSideViewShown = !isSideViewShown;
-                    self.title = isSideViewShown ? self.sideViewTitle : [self.titles objectAtIndex:[self.viewControllers indexOfObject:self.selectedViewController]];
-                }
-                else{
-                    CGRect frame = pageScrollView.frame;
-                    frame.origin.x = 0;
-                    pageScrollView.frame = frame;
-                    
-                    frame = self.sideViewController.view.frame;
-                    frame.origin.x = -self.sideViewWidth;
-                    self.sideViewController.view.frame = frame;
-                    [UIView commitAnimations];
-                }
+            if ((!isSideViewShown && (translation.x > self.sideViewWidth / 2 || velocity.x > 500))
+                || (isSideViewShown && (translation.x < -self.sideViewWidth / 2 || velocity.x < -500))) {
+                [self showSideView:nil];
             }
-            if (isSideViewShown) {
-                if (translation.x < -self.sideViewWidth / 2 || velocity.x < - 500) {
-                    CGRect frame = pageScrollView.frame;
-                    frame.origin.x = 0;
-                    pageScrollView.frame = frame;
-                    
-                    frame = self.sideViewController.view.frame;
-                    frame.origin.x = - self.sideViewWidth;
-                    self.sideViewController.view.frame = frame;
-                    pageScrollView.alpha = isSideViewShown ? 1.0 : 0.5;
-                    
-                    pageControl.currentPageIndicatorTintColor = isSideViewShown ? self.currentPageIndicatorTintColor : self.pageIndicatorTintColor;
-                    [self.navigationItem.rightBarButtonItem setEnabled:isSideViewShown];
-                    
-                    [UIView commitAnimations];
-                    
-                    [pageScrollView setUserInteractionEnabled:isSideViewShown];
-                    for (UIPanGestureRecognizer *gr in pageScrollView.gestureRecognizers) {
-                        gr.enabled = isSideViewShown;
-                    }
-                    
-                    isSideViewShown = !isSideViewShown;
-                    self.title = isSideViewShown ? self.sideViewTitle : [self.titles objectAtIndex:[self.viewControllers indexOfObject:self.selectedViewController]];
-                }
-                else{
-                    CGRect frame = pageScrollView.frame;
-                    frame.origin.x = self.sideViewWidth;
-                    pageScrollView.frame = frame;
-                    
-                    frame = self.sideViewController.view.frame;
-                    frame.origin.x = 0;
-                    self.sideViewController.view.frame = frame;
-                    [UIView commitAnimations];
-                }
+            else{
+                CATransition *animation = [CATransition animation];
+                [animation setDuration:0.2f];
+                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
+                [animation setType:kCATransitionFade];
+                
+                [self.navigationController.navigationBar.layer addAnimation:animation forKey:nil];
+                
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:0.2f];
+                [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+                CGRect frame = pageScrollView.frame;
+                frame.origin.x = !isSideViewShown ? 0 : self.sideViewWidth;
+                pageScrollView.frame = frame;
+                
+                frame = self.sideViewController.view.frame;
+                frame.origin.x = !isSideViewShown ? -self.sideViewWidth : 0;
+                self.sideViewController.view.frame = frame;
+                [UIView commitAnimations];
             }
         }
     }
